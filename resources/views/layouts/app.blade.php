@@ -14,7 +14,7 @@
 
             <nav class="flex gap-3 items-center">
                 <a class="font-bold uppercase text-gray-600 text-sm" href="#">Ingresar</a>
-                <a class="font-bold uppercase text-gray-600 text-sm"  class="font-bold uppercase text-gray-600 text-sm"href="#">Crear Cuenta</a>
+                <a class="font-bold uppercase text-gray-600 text-sm"  class="font-bold uppercase text-gray-600 text-sm" href="{{ route('register') }}">Crear Cuenta</a>
             </nav>
         </div>
     </header>
@@ -22,6 +22,7 @@
     <main class="container mx-auto mt-10">
         <h2 class="font-black text-center text-3xl mb-10">@yield('titulo')</h2>
 
+        {{-- Insertamos contenido dinámico  --}}
         @yield('contenido')
     </main>
 
