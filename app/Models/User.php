@@ -18,10 +18,13 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
+    // Son los datos que el usuario va a proporcionar (FORMULARIO) y que queremos que se inserten en la Base de Datos
     protected $fillable = [
         'name',
         'email',
         'password',
+        'username', //Agregamos el campo que añadimos a la tabla Users desde la migración 
     ];
 
     /**
@@ -43,7 +46,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password' => 'hashed', //Encryptar la constraseña desde el Modelo (No es necesario usarlo en el controlador)
         ];
     }
 }
