@@ -20,8 +20,8 @@
 
                 @if (session('mensaje'))
                     <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">
-                            {{ session('mensaje') }}
-                        </p>
+                        {{ session('mensaje') }}
+                    </p>
                 @endif
 
                 {{-- Campo Email --}}
@@ -60,6 +60,14 @@
                             {{ $message }}
                         </p>
                     @enderror
+                </div>
+
+                {{-- Opción "Recordarme": 
+                    Si el login falla, old('remember') volverá a marcar la casilla automáticamente al recargar el formulario. --}}
+                <div class="mb-5">
+                    <input type="checkbox" id="remember" name="remember" value="1"
+                        {{ old('remember') ? 'checked' : '' }}>
+                    <label for="remember" class="mb-2 text-gray-500 font-bold text-sm">Mantener mi sesión abierta</label>
                 </div>
 
                 {{-- Botón de envío --}}

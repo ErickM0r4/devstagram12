@@ -22,27 +22,42 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos recibidos.
-        // validate() devuelve un array con los datos validados.
+        // Validar los datos enviados por el usuario.
+        // Si la validación falla, Laravel redirige automáticamente
+        // al formulario anterior mostrando los errores.
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
+        // Obtener el valor de la casilla "Recordarme".
+        //
+        // Si está marcada:
+        // true
+        //
+        // Si no está marcada:
+        // false
+        $remember = $request->boolean('remember');
+
         // Intentar autenticar al usuario.
         //
-        // Internamente Laravel:
-        // 1. Busca el usuario por email.
-        // 2. Obtiene la contraseña hasheada de la BD.
-        // 3. Compara la contraseña enviada con el hash.
-        // 4. Si coinciden, inicia sesión automáticamente.
+        // Laravel realiza internamente:
         //
-        // Devuelve:
-        // true  -> Login correcto
-        // false -> Login incorrecto
-        if (!Auth::attempt($credentials)) {
+        // 1. Busca un usuario con ese email.
+        // 2. Obtiene la contraseña hasheada de la base de datos.
+        // 3. Compara la contraseña enviada con el hash almacenado.
+        // 4. Si coinciden, inicia sesión.
+        //
+        // El segundo parámetro ($remember) indica si Laravel
+        // debe crear una cookie persistente para mantener
+        // la sesión abierta incluso después de cerrar el navegador.
+        if (!Auth::attempt($credentials, $remember)) {
 
-            // Regresar al formulario conservando los datos introducidos y mostrar un mensaje de error.
+            // Si las credenciales son incorrectas:
+            //
+            // - Regresar al formulario anterior.
+            // - Mantener los datos introducidos.
+            // - Mostrar un mensaje de error.
             return back()
                 ->withInput()
                 ->with(
@@ -51,10 +66,12 @@ class LoginController extends Controller
                 );
         }
 
-        // Por seguridad, Laravel recomienda regenerar el ID de sesión después de autenticar.
+        // Regenerar el ID de la sesión por seguridad.
+        //
+        // Esto ayuda a prevenir ataques de Session Fixation.
         $request->session()->regenerate();
 
-        // Redirigir al usuario autenticado al muro.
+        // Redirigir al usuario autenticado al muro principal.
         return redirect()->route('posts.index');
     }
 }
