@@ -18,7 +18,7 @@
                 <nav class="flex gap-3 items-center">
                     {{-- Mostrar el username del usuario autenticado --}}
                     <a class="font-bold text-gray-600 text-sm" href="#"> Hola: <span
-                            class="font-normal">{{ auth()->user()->username }}</span></a>
+                            class="font-normal  text-blue-600">{{ auth()->user()->username }}</span></a>
 
                     {{-- Enviar una petición POST para cerrar la sesión --}}
                     <form method="POST" action="{{ route('logout') }}">

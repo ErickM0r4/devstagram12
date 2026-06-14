@@ -23,4 +23,4 @@ Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 Route::post('/logout', [LogoutController::class, 'store'])->name('logout'); 
 
 // Mostrar el muro (solo usuarios autenticados)
-Route::get('/muro', [PostController::class, 'index'])->middleware('auth')->name('posts.index');
+Route::get('/{user:username}', [PostController::class, 'index'])->middleware('auth')->name('profile.index'); //Anteriormente posts.index
