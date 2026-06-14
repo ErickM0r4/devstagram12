@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User; // Modelo User para interactuar con la tabla users
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // Importamos para poder autenticar al usuario 
 use Illuminate\Support\Facades\Hash; // Permite generar hashes seguros para las contraseñas
 use Illuminate\Support\Str; // Utilidades para trabajar con cadenas de texto
 use Illuminate\Validation\Rules\Password; // Reglas avanzadas de validación de contraseñas
@@ -28,7 +29,7 @@ class RegisterController extends Controller
         // Ejemplo:
         // "Juan Pérez" => "juan-perez"
         // "Mi Usuario" => "mi-usuario"
-        $request->request->add([
+        $request->merge([
             'username' => Str::slug($request->username),
         ]);
 
@@ -40,7 +41,8 @@ class RegisterController extends Controller
             // Username obligatorio.
             // Debe ser único en la tabla users.
             // Debe tener entre 3 y 20 caracteres.
-            'username' => 'required|unique:users|min:3|max:20',
+            // alpha_dash permite: letras, numeros, guiones (-) y guiones bajos (_)
+            'username' => 'required|unique:users|min:3|max:20|alpha_dash',
 
             // Email obligatorio.
             // Debe ser único en la tabla users.
@@ -65,7 +67,7 @@ class RegisterController extends Controller
         ]);
 
         // Crear el usuario en la base de datos.
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
@@ -81,7 +83,13 @@ class RegisterController extends Controller
             // 'password' => $request->password,
         ]);
 
+        // Autenticar un usuario
+        Auth::login($user);
+
+        // Regenerar la sesión
+        $request->session()->regenerate();
+
         // Redireccionar
-        return redirect()->route('posts.index'); 
+        return redirect()->route('posts.index');
     }
 }

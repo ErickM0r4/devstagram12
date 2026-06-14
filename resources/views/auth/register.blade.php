@@ -15,7 +15,7 @@
         {{-- Contenedor del formulario --}}
         <div class="md:w-4/12 bg-white p-6 rounded-lg shadow-xl">
 
-            <form action="{{ route('register') }}" method="POST" novalidate>{{-- novalidate - sirve para que las validaciones HTML5 interfieran con las que hicimos de Laravel, normalmente los formularios van de la siguiente forma: --}}
+            <form action="{{ route('register.store') }}" method="POST" novalidate>{{-- novalidate - sirve para que las validaciones HTML5 interfieran con las que hicimos de Laravel, normalmente los formularios van de la siguiente forma: --}}
 
             {{-- <form action="{{ route('register') }}" method="POST"> --}}
 

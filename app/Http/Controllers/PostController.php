@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     /**
-     * Muestra la vista del muro
+     * Muestra la vista del muro (Redes sociales)
      */
     public function index()
     {
-        return dd('Desde el Muro');
+        return view('layouts.dashboard'); 
     }
 }
